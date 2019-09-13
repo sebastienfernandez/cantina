@@ -11,7 +11,7 @@
 
     </main>
     <footer>
-      
+
     </footer>
   </div>
 </template>
@@ -26,7 +26,7 @@ import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
   },
 })
 export default class Home extends Vue {
-
+  // typage (avec typescript) de la variable title
   title: string = 'Avec la Cantina, innovez sur les recettes issues de la culture populaire !'
 
 }
