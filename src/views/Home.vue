@@ -1,6 +1,18 @@
 <template>
   <div class="home">
     <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+    <header>
+      <h1>{{ title }}</h1>
+      <div id="searchBar">
+
+      </div>
+    </header>
+    <main>
+
+    </main>
+    <footer>
+      
+    </footer>
   </div>
 </template>
 
@@ -13,5 +25,14 @@ import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
     HelloWorld,
   },
 })
-export default class Home extends Vue {}
+export default class Home extends Vue {
+
+  title: string = 'Avec la Cantina, innovez sur les recettes issues de la culture populaire !'
+
+}
+
 </script>
+
+<style>
+  
+</style>
