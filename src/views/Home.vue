@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
     <header>
       <h1>{{ title }}</h1>
       <div id="searchBar" class="components-input-demo-presuffix">
@@ -59,7 +58,7 @@
       </section>
     </main>
     <footer>
-
+      <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
     </footer>
   </div>
 </template>
