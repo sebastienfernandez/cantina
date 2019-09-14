@@ -11,14 +11,16 @@
             />
             <template class="ant-card-actions" slot="actions">
                 <a-icon type="edit" />
-                <a-popconfirm title="Are you sure delete this task?" @confirm="confirm" @cancel="cancel" okText="Yes" cancelText="No">
+                <a-popconfirm title="Voulez vous vraiment supprimer cette recette ?" @confirm="confirm" @cancel="cancel" okText="Oui" cancelText="Non">
                     <a-icon type="delete"/>
                 </a-popconfirm>
                 
             </template>
             <a-card-meta
                 title="Titre de la recette"
-                description="Ici, la description plutôt courte de la recette">
+                description="Ici, la description plutôt courte de la recette"
+                class="textRecipeCard"
+            >
             </a-card-meta>
         
 </a-card>
@@ -49,6 +51,12 @@ export default class RecipeCard extends Vue {
 
 <style scoped lang="scss">
     .recipeCard {
-        width: 300px;
+        margin: 2%;
+        width: 250px;
+    }
+
+    .textRecipeCard {
+        text-overflow: ellipsis;
+        height: 70px;
     }
 </style>

@@ -1,15 +1,15 @@
 <template>
     <div id="recipe">
         <header>
-            <a-icon type="edit" />
-            <a-icon type="delete" />
+            <a-icon type="edit" class="iconHeaderRecipe" />
+            <a-icon type="delete" class="iconHeaderRecipe" />
         </header>
         <main>
             <section class="contentRecipeTop">
-                <aside>
+                <aside class="imgContainer">
                     <img src="../assets/logo-vue.png" alt="photo recette geek">
                 </aside>
-                <div>
+                <div class="mainContentRecipeTop">
                     <article>
                         <h1>Titre de la recette</h1>
                         <p>Pour {{ numberOfPersons }}</p>
@@ -76,6 +76,33 @@
 </script>
 
 <style>
+
+    header {
+        display: flex;
+        justify-content: flex-end;
+        position: fixed;
+        width: 100%;
+    }
+
+    .iconHeaderRecipe {
+        cursor: pointer;
+        font-size: 72px;
+    }
+
+    .contentRecipeTop {
+        display: flex;
+        align-items: center;
+        margin-top: 5%;
+    }
+
+    .imgContainer {
+        width: 32%;
+    }
+
+    .mainContentRecipeTop {
+        width: 68%;
+    }
+
     .stepStyle {
         background-color: #f7f7f7;
         border-radius: 5px;
