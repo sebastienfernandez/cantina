@@ -54,7 +54,9 @@
         </div>
       </section>
       <section id="listOfRecipes">
-
+        <RecipeCard />
+        <RecipeCard />
+        <RecipeCard />
       </section>
     </main>
     <footer>
@@ -66,10 +68,12 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
+import RecipeCard from '@/components/RecipeCard.vue';
 
 @Component({
   components: {
-    HelloWorld
+    HelloWorld,
+    RecipeCard
   }
 })
 export default class Home extends Vue {

@@ -48,6 +48,9 @@
      <input type="number" id="persons" name="persons" v-model="persons" min="1" max="8" step="1" />
    </p>
 
+   <p>Ajouter un ingrédient</p>
+   <p>Etapes de la recette : </p>
+
   <p>
     <input
       type="submit"
