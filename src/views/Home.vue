@@ -62,19 +62,18 @@
           v-bind:difficultyRecipe="recipe.niveau"
           v-bind:personsRecipe="recipe.personnes"
           v-bind:timeRecipe="recipe.tempsPreparation"
+          v-bind:idRecipe="recipe.id"
         />
       </section>
     </main>
     <footer>
       <a-icon type="plus-circle" class="buttonAddRecipe" />
     </footer>
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
 import RecipeCard from '@/components/RecipeCard.vue';
 import axios from 'axios'
 

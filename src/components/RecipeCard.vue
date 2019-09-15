@@ -10,7 +10,13 @@
             />
             <template class="ant-card-actions" slot="actions">
                 <a-icon type="edit" />
-                <a-popconfirm title="Voulez vous vraiment supprimer cette recette ?" @confirm="confirm" @cancel="cancel" okText="Oui" cancelText="Non">
+                <a-popconfirm 
+                    title="Voulez vous vraiment supprimer cette recette ?" 
+                    @confirm="confirm" 
+                    @cancel="cancel" 
+                    okText="Oui" 
+                    cancelText="Non"
+                >
                     <a-icon type="delete"/>
                 </a-popconfirm>
                 
