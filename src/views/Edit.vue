@@ -40,13 +40,13 @@
     </span>
 
     <p class="inputsTime">
-      <label for="time">Durée (en minutes)</label>
+      <label for="time">Durée (en minutes) :</label>
       <input type="range" min="0" max="200" v-model="value" step="1" id="time" name="time" />
       <input type="number" v-model="value"/>
     </p>
   </div>
 
-   <p class="labelInputRow">
+   <p class="inputsPersons">
      <label for="persons">Pour combien de personnes ?</label>
      <input type="number" id="persons" name="persons" v-model="persons" min="1" max="8" step="1" />
    </p>
@@ -64,12 +64,13 @@
     </p>
   </div>
 
-  <p>
-    <input
-      type="submit"
-      value="Submit"
-    >
-  </p>
+  <div class="editFooter">
+    <img src="../assets/logo-vue.png" alt="photo recette geek" />
+    <div class="buttonsFooter">
+      <button class="buttonFooter">Reset</button>
+      <input type="submit" value="Submit" class="buttonFooter" >
+    </div>
+  </div>
 
 </form>
   </div>
@@ -145,14 +146,45 @@
     margin-right: 30px;
   }
 
+  .diffAndTime {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 500px;
+  }
+
   .difficutySelect {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     align-items: flex-start;
+    height: 200px;
+    width: 
   }
 
   .difficutySelect input {
     margin: 8px;
+  }
+
+  .inputsTime {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    height: 200px;
+  }
+
+  .inputsTime input {
+    margin-left: 30px;
+  }
+
+  .inputsPersons {
+    display: flex;
+    align-items: center;
+  }
+  
+  .inputsPersons input {
+    margin-left: 30px;
   }
 
   .titleAdd {
@@ -164,5 +196,43 @@
     margin-left: 30px;
     font-size: 34px;
     cursor: pointer;
+  }
+
+  .editFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 500px;
+  }
+
+  .buttonsFooter {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 200px;
+  }
+
+  .buttonFooter {
+    cursor: pointer;
+    width: 200px;
+    height: 50px;
+  }
+
+  @media screen and (max-width: 600px) {
+    .diffAndTime {
+      justify-content: space-around;
+    }
+
+    .inputsPersons {
+      justify-content: center;
+    }
+
+    .editFooter {
+      flex-direction: column;
+    }
+
+    .buttonsFooter {
+      justify-content: space-around;
+    }
   }
 </style>
