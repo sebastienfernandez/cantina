@@ -6,6 +6,7 @@
       @submit="checkForm"
       action="https://vuejs.org/"
       method="post"
+      novalidate="true"
     >
 
   <p v-if="errors.length" class="errorMessage">
@@ -22,27 +23,37 @@
       v-model="name"
       type="text"
       name="name"
+      maxlength="30"
     >
   </p>
 
   <p class="labelInputRow">
     <label for="description">Description</label>
-    <textarea name="description" id="description" cols="50" rows="5"></textarea>
+    <textarea 
+      name="description" 
+      id="description" 
+      v-model="description"
+      cols="50" 
+      rows="5"
+      maxlength="150"
+    >
+    
+    </textarea>
   </p>
 
 
   <div class="diffAndTime">
     <span class="difficutySelect">
         Difficulté :<br />
-        <p><input type="radio" name="difficulty" value="padawan" id="padawan" /> <label for="padawan">Padawan</label></p><br />
+        <p><input type="radio" name="difficulty" value="padawan" id="padawan" checked /> <label for="padawan">Padawan</label></p><br />
         <p><input type="radio" name="difficulty" value="jedi" id="jedi" /> <label for="jedi">Jedi</label></p><br />
         <p><input type="radio" name="difficulty" value="master" id="master" /> <label for="master">Maître</label></p><br />
     </span>
 
     <p class="inputsTime">
       <label for="time">Durée (en minutes) :</label>
-      <input type="range" min="0" max="200" v-model="value" step="1" id="time" name="time" />
-      <input type="number" v-model="value"/>
+      <input type="range" min="0" max="200" v-model="timeValue" step="1" id="timeValue" name="timeValue" />
+      <input type="number" v-model="timeValue"/>
     </p>
   </div>
 
@@ -56,7 +67,10 @@
      <b>Ajouter un ingrédient</b>
      <a-icon type="plus-circle" class="buttonAdd" />
     </p>
-    <div>
+    <ul>
+      <li v-for="ingrediant in ingrediantList">{{ ingrediant }}</li>
+    </ul>
+  <div>
 
     </div>
   </div>
@@ -65,13 +79,20 @@
      <b>Etapes de la recette : </b>
      <a-icon type="plus-circle" class="buttonAdd" />
     </p>
-    <div>
-      
+    <ul>
+      <li v-for="step in stepList">{{ step }}</li>
+    </ul>
+  <div>
+
     </div>
   </div>
 
   <div class="editFooter">
-    <img src="../assets/logo-vue.png" alt="photo recette geek" />
+    <p class="imgRecipe">
+      <label for="srcImg">Source de votre photo de recette</label>
+      <input type="url" placeholder="http://..." name="srcImg" id="srcImg" v-model="srcImg"/>
+      <img v-bind:src="srcImg" alt="photo recette geek">
+    </p>
     <div class="buttonsFooter">
       <button class="buttonFooter">Reset</button>
       <input type="submit" value="Submit" class="buttonFooter" >
@@ -84,34 +105,64 @@
 
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator';
+  
 
   @Component({})
 
   export default class Edit extends Vue {
 
     newTitle: string = 'Nouvelle recette'
-
     editTitle: string = 'Modification de la recette'
 
-    errors: string[] =['error 1', 'error 2', 'error 3']
-
-    name: string = ' '
-    value: number = 100
-    persons: number = 2
+    errors: string[] = []
+    ingrediantList: string[] = []
+    stepList: string[] = []
+    name: any = null
+    description: any = null
+    difficulty: any = null
+    timeValue: any = null
+    persons: any = null
+    srcImg: any = null
+    
+    
 
     checkForm(e?: any) : any {
-      if (this.name) {
-        return true
-      }
 
       this.errors = [];
 
       if (!this.name) {
-        this.errors.push('Name required.');
+        this.errors.push('Nom de la recette requis');
       }
+
+      if (!this.description) {
+        this.errors.push('Description de la requette requise');
+      }
+      if (!this.difficulty) {
+        this.errors.push('Difficulté de la recette requise');
+      }
+      if (!this.timeValue || this.timeValue > 0 || Number.isInteger(this.timeValue) === true) {
+        this.errors.push('Temps de préparation requis, celui-ci doit être entier et positif');
+      }
+      if (!this.persons || this.persons > 0 || Number.isInteger(this.persons) === true) {
+        this.errors.push('Nombre de personne(s) requis, celui-ci doit être entier et positif');
+      }
+
+      if(this.stepList.length === 0) {
+        this.errors.push('La recette doit suivre au moins une étape')
+      }
+
+      if(this.ingrediantList.length === 0) {
+        this.errors.push('La recette doit contenir au moins une recette')
+      }
+
+      if (!this.errors.length && this.stepList.length > 0 && this.ingrediantList.length > 0 ) {
+        return true;
+      }
+      
 
       e.preventDefault();
     }
+
 
     
     
@@ -209,6 +260,14 @@
     justify-content: space-between;
     align-items: center;
     width: 500px;
+  }
+
+  .imgRecipe {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 200px;
   }
 
   .buttonsFooter {

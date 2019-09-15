@@ -92,6 +92,8 @@ export default class Home extends Vue {
 
   info: any = null
 
+  listOfRecipes: [] = []
+
   onSearch (searchValue?: string): void {
     console.log(searchValue)
   }
@@ -163,6 +165,7 @@ export default class Home extends Vue {
 
   .buttonAddRecipe {
     font-size: 50px;
+    cursor: pointer;
   }
 
   @media screen and (max-width: 1280px) {

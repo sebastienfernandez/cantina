@@ -2,7 +2,9 @@
     <div id="recipe">
         <header>
             <a-icon type="edit" class="iconHeaderRecipe" />
-            <a-icon type="delete" class="iconHeaderRecipe" />
+            <a-popconfirm title="Voulez vous vraiment supprimer cette recette ?" @confirm="confirm" @cancel="cancel" okText="Oui" cancelText="Non">
+                <a-icon type="delete" class="iconHeaderRecipe" />
+            </a-popconfirm>
         </header>
         <main>
             <section class="contentRecipeTop">
