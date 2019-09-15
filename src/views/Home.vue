@@ -54,14 +54,15 @@
         </div>
       </section>
       <section id="listOfRecipes">
-        <RecipeCard />
-        <RecipeCard />
-        <RecipeCard />
-        <RecipeCard />
-        <RecipeCard />
-        <RecipeCard />
-        <RecipeCard />
-        <RecipeCard />
+        <RecipeCard 
+          v-for="recipe in listOfRecipes" 
+          v-bind:titleRecipe="recipe.titre" 
+          v-bind:descriptionRecipe="recipe.description"
+          v-bind:photoRecipe="recipe.photo"
+          v-bind:difficultyRecipe="recipe.niveau"
+          v-bind:personsRecipe="recipe.personnes"
+          v-bind:timeRecipe="recipe.tempsPreparation"
+        />
       </section>
     </main>
     <footer>
@@ -86,13 +87,11 @@ import axios from 'axios'
 export default class Home extends Vue {
 
   // typage (avec typescript) de la variable title
+
   title: string = 'Avec la Cantina, innovez sur les recettes issues de la culture populaire !'
-
   lessquarter: string = '<15min.'
-
   info: any = null
-
-  listOfRecipes: [] = []
+  listOfRecipes: any = []
 
   onSearch (searchValue?: string): void {
     console.log(searchValue)
@@ -105,11 +104,12 @@ export default class Home extends Vue {
   mounted() {
             axios
                 .get('http://localhost:9000/api/recipes')
-                .then(response => (this.info = response))
+                .then(response => (this.listOfRecipes = response.data, console.log(this.listOfRecipes)))
                 .catch(error => {
                     this.info = error
+                    console.log(this.info)
                 })
-              console.log(this.info)
+              
             
         }
 
@@ -149,7 +149,7 @@ export default class Home extends Vue {
   #listOfRecipes {
     display: flex;
     justify-content: space-around;
-    flex-wrap: wrap-reverse;
+    flex-wrap: wrap;
   }
 
   footer {

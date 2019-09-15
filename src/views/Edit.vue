@@ -216,7 +216,7 @@
     justify-content: space-between;
     align-items: flex-start;
     height: 200px;
-    width: 
+    width: 200px;
   }
 
   .difficutySelect input {
@@ -284,8 +284,18 @@
   }
 
   @media screen and (max-width: 600px) {
+    .edit {
+      width: 100%;
+    }
+
     .diffAndTime {
+      flex-direction: column;
       justify-content: space-around;
+      align-items: center;
+    }
+
+    .inputsTime input {
+      margin-left: 0;
     }
 
     .inputsPersons {
@@ -297,6 +307,7 @@
     }
 
     .buttonsFooter {
+      
       justify-content: space-around;
     }
   }
