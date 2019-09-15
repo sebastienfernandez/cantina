@@ -56,12 +56,18 @@
      <b>Ajouter un ingrédient</b>
      <a-icon type="plus-circle" class="buttonAdd" />
     </p>
+    <div>
+
+    </div>
   </div>
   <div>
     <p class="titleAdd">
      <b>Etapes de la recette : </b>
      <a-icon type="plus-circle" class="buttonAdd" />
     </p>
+    <div>
+      
+    </div>
   </div>
 
   <div class="editFooter">

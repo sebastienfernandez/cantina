@@ -65,8 +65,9 @@
       </section>
     </main>
     <footer>
-      <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+      <a-icon type="plus-circle" class="buttonAddRecipe" />
     </footer>
+    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
   </div>
 </template>
 
@@ -74,6 +75,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
 import RecipeCard from '@/components/RecipeCard.vue';
+import axios from 'axios'
 
 @Component({
   components: {
@@ -88,6 +90,8 @@ export default class Home extends Vue {
 
   lessquarter: string = '<15min.'
 
+  info: any = null
+
   onSearch (searchValue?: string): void {
     console.log(searchValue)
   }
@@ -95,6 +99,17 @@ export default class Home extends Vue {
   handleMenuClick(filterValue?: string): void {
     console.log('click', filterValue)
   }
+
+  mounted() {
+            axios
+                .get('http://localhost:9000/api/recipes')
+                .then(response => (this.info = response))
+                .catch(error => {
+                    this.info = error
+                })
+              console.log(this.info)
+            
+        }
 
 }
 
@@ -133,6 +148,21 @@ export default class Home extends Vue {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap-reverse;
+  }
+
+  footer {
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    position: fixed !important;
+    bottom: 0;
+    height: 100px;
+    width: 100%;
+    padding-right: 5% !important;
+  }
+
+  .buttonAddRecipe {
+    font-size: 50px;
   }
 
   @media screen and (max-width: 1280px) {
