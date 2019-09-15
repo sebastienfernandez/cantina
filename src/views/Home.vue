@@ -79,7 +79,6 @@ import axios from 'axios'
 
 @Component({
   components: {
-    HelloWorld,
     RecipeCard
   }
 })
