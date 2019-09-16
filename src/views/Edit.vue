@@ -97,7 +97,6 @@
       <img v-bind:src="srcImg" alt="photo recette geek">
     </p>
     <div class="buttonsFooter">
-      <button class="buttonFooter">Reset</button>
       <input type="submit" value="Submit" class="buttonFooter" >
     </div>
   </div>
@@ -179,7 +178,7 @@
         .post('http://localhost:9000/api/recipes')
         .then(response => (console.log(response), alert("Nouvelle recette crée")))
                 .catch(error => {
-                    alert("Champs manquants")
+                    console.log(error)
                 })
 
     }

@@ -57,7 +57,7 @@
                         <a-collapse-panel 
                             v-for="(etape, index) in this.infosRecipe.etapes"
                             v-bind:key="index"
-                            v-bind:header="headerStep + index"
+                            v-bind:header="headerStep + (index+1)"
                             class="stepStyle">
                             <p>{{etape}}</p>
                         </a-collapse-panel>
@@ -86,6 +86,10 @@
 
         confirm() :void {
             console.log('confirmation supression')
+            axios
+                .delete(`http://localhost:9000/api/recipe/${this.$route.params.id}`)
+                .then(response => (alert('recette supprimée')))
+                .catch(error => (alert("aucune recette trouvée")))
         }
 
         cancel() : void {
