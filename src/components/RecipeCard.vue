@@ -8,6 +8,7 @@
                 v-bind:src="photoRecipe"
                 slot="cover"
             />
+            
             <template class="ant-card-actions" slot="actions">
                 <a-icon type="edit" />
                 <a-popconfirm 
@@ -57,10 +58,16 @@ export default class RecipeCard extends Vue {
     @Prop() private timeRecipe!: number;
     @Prop() private listRecipes!: any;
 
+    listAfterDelete: any = []
+
     confirm(e?: any) : void {
         console.log(e)
         alert("La recette " + this.titleRecipe + " a été supprimée ")
-        console.log(this.listRecipes)
+        this.listAfterDelete = this.listRecipes.filter((recipe: any) => {
+         if(recipe.id == this.idRecipe) {return false}
+         return true
+        })
+        console.log(this.listAfterDelete)    
     }
 
     cancel(e?: any) : void {

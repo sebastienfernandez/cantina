@@ -81,6 +81,7 @@
           v-bind:timeRecipe="recipe.tempsPreparation"
           v-bind:idRecipe="recipe.id"
           v-bind:listRecipes="newList"
+          
         />
 
       </section>
@@ -183,7 +184,6 @@ export default class Home extends Vue {
     })
 
     this.listChanged = true;
-
     
     console.log(this.listChanged)
     console.log(this.newList)
