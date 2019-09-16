@@ -8,6 +8,7 @@
             <option value=" "> </option>
         </select>
         <input name="ingredient" type="text" maxlength="30"/>
+        <a-icon type="close-square" v-on:click="deleteIngredient" class="closeButton" />
     </div>
 </template>
 
@@ -19,12 +20,16 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 
 export default class Ingredient extends Vue {
 
-    
+    deleteIngredient() : void {
+
+    }
 
 }
 
 </script>
 
 <style>
-
+    .closeButton {
+        font-size: 20px;
+    }
 </style>

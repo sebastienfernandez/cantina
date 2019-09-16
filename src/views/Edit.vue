@@ -24,6 +24,7 @@
       type="text"
       name="name"
       maxlength="30"
+      value="seb"
     >
   </p>
 
@@ -134,6 +135,10 @@
     srcImg: any = null
     
     addIngredient() : void {
+
+    }
+
+    addStep() : void {
 
     }
 

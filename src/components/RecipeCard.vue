@@ -12,7 +12,7 @@
             />
             <p>{{$route.params.id}}</p>
             <template class="ant-card-actions" slot="actions">
-                <router-link to="/edit">
+                <router-link v-bind:to="editUrl">
                     <a-icon type="edit" />
                 </router-link>
                 <a-popconfirm 
@@ -68,6 +68,7 @@ export default class RecipeCard extends Vue {
     listAfterDelete: any = []
 
     recipeUrl: string = "/recipe/" + this.idRecipe
+    editUrl: string = "/edit/" + this.idRecipe
 
     confirm(e?: any) : void {
         console.log(e)

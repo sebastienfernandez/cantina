@@ -215,8 +215,8 @@ export default class Home extends Vue {
 <style>
 
   .headerHome {
-    display: flex;
-    justify-content: space-around;
+    display: flex !important;
+    justify-content: space-around !important;
     align-items: center;
     position: relative !important;
     margin-bottom: 10%;

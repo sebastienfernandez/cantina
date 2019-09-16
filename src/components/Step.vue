@@ -3,6 +3,7 @@
         <textarea name="step" rows="3" cols="45">
 
         </textarea>
+        <a-icon type="close-square" v-on:click="deleteStep" />
     </div>
 </template>
 
@@ -12,6 +13,10 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 @Component
 
 export default class Step extends Vue {
+
+    deleteStep() : void {
+
+    }
 
 }
 

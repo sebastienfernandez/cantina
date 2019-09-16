@@ -90,6 +90,7 @@
                 .delete(`http://localhost:9000/api/recipe/${this.$route.params.id}`)
                 .then(response => (alert('recette supprimée')))
                 .catch(error => (alert("aucune recette trouvée")))
+            history.back()
         }
 
         cancel() : void {
@@ -103,6 +104,7 @@
                 .catch(error => {
                     alert("errorMessage : Recette non trouvée" )
                 })
+            
         }
         
     }

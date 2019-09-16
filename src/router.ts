@@ -24,6 +24,11 @@ export default new Router({
       component: () => import(/* webpackChunkName: "edit" */ './views/Edit.vue')
     },
     {
+      path: '/edit/:id',
+      name: 'edit',
+      component: () => import(/* webpackChunkName: "edit" */ './views/Edit.vue')
+    },
+    {
       path: '/recipe/:id',
       name: 'recipe/:id',
       component: Recipe
