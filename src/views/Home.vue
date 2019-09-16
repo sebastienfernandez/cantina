@@ -24,7 +24,7 @@
               <a-menu-item key="2"><a-icon type="user" />Jedi</a-menu-item>
               <a-menu-item key="3"><a-icon type="user" />Maître</a-menu-item>
             </a-menu>
-            <a-button class="filterButton">
+            <a-button class="filterButtons">
             Difficulté <a-icon type="down" />
             </a-button>
           </a-dropdown>
@@ -39,7 +39,7 @@
               <a-menu-item key="7"><a-icon type="user" />7</a-menu-item>
               <a-menu-item key="8"><a-icon type="user" />8</a-menu-item>
             </a-menu>
-            <a-button class="filterButton">
+            <a-button class="filterButtons">
             Nombre de personnes <a-icon type="down" />
             </a-button>
           </a-dropdown>
@@ -51,11 +51,12 @@
               <a-menu-item key="4"><a-icon type="user" />90</a-menu-item>
               <a-menu-item key="5"><a-icon type="user" />120</a-menu-item>
             </a-menu>
-            <a-button class="filterButton">
+            <a-button class="filterButtons">
             Durée maximum en minutes <a-icon type="down" />
             </a-button>
           </a-dropdown>
-          <button @click="toChangeList">Filtrer</button>
+          <button @click="toChangeList" id="filterButton" class="toSort">Filtrer</button>
+          <button @click="toResetList" id="resetButton" class="toSort">Reset</button>
         </div>
       </section>
       <section id="listOfRecipes">
@@ -186,10 +187,13 @@ export default class Home extends Vue {
     })
 
     this.listChanged = true;
-    
     console.log(this.listChanged)
     console.log(this.newList)
     
+  }
+
+  toResetList() : void {
+    this.listChanged = false;
   }
 
   mounted() {
@@ -229,13 +233,36 @@ export default class Home extends Vue {
     margin-left: 5%;
     margin-bottom: 5%;
   }
+
+  .filtersContent {
+    display: flex;
+    align-items: center;
+  }
   
   a-icon[type="search"] {
     cursor: pointer;
   }
 
-  .filterButton {
+  .filtersButton {
     margin-left: 8px
+  }
+
+  .toSort {
+    margin-left: 8px;
+    width: 100px;
+    font-size: 1.5em;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+  }
+
+  #filterButton {
+    background-color: #1890ff;
+  }
+
+  #resetButton {
+    background-color: red;
   }
 
   #listOfRecipes {

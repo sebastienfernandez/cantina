@@ -1,6 +1,6 @@
 <template>
 
-    <router-link to="/recipe">
+    <router-link to="/edit">
     <a-card
         hoverable
         class="recipeCard"
@@ -9,7 +9,6 @@
                 alt="example"
                 v-bind:src="photoRecipe"
                 slot="cover"
-                
             />
             
             <template class="ant-card-actions" slot="actions">
@@ -33,17 +32,19 @@
                 class="textRecipeCard"
             >
             </a-card-meta>
-            <p>difficulté {{difficultyRecipe}}</p>
-            <p>Pour {{personsRecipe}}
-                <span v-if="personsRecipe === 0 || personsRecipe === 1">personne</span>
-                <span v-else>personnes</span>
-            </p>
-            <p>Nécessite  
-                <span v-if="timeRecipe > 60">{{Math.trunc(timeRecipe/60)}}h</span>
-                {{timeRecipe%60}}
-                <span v-if="((timeRecipe%60) === 0) || ((timeRecipe%60) === 1)">minute</span>
-                <span v-else>minutes</span>
-            </p>
+            <div class="textInfoCard">
+                <p>Difficulté {{difficultyRecipe}}</p>
+                <p>Pour {{personsRecipe}}
+                    <span v-if="personsRecipe === 0 || personsRecipe === 1">personne</span>
+                    <span v-else>personnes</span>
+                </p>
+                <p>Nécessite  
+                    <span v-if="timeRecipe > 60">{{Math.trunc(timeRecipe/60)}}h</span>
+                    {{timeRecipe%60}}
+                    <span v-if="((timeRecipe%60) === 0) || ((timeRecipe%60) === 1)">minute</span>
+                    <span v-else>minutes</span>
+                </p>
+            </div>
         
 </a-card>
 </router-link>
@@ -66,6 +67,8 @@ export default class RecipeCard extends Vue {
 
     listAfterDelete: any = []
 
+    recipeUrl: string = "/recipe/" + this.idRecipe
+
     confirm(e?: any) : void {
         console.log(e)
         alert("La recette " + this.titleRecipe + " a été supprimée ")
@@ -73,7 +76,14 @@ export default class RecipeCard extends Vue {
          if(recipe.id == this.idRecipe) {return false}
          return true
         })
-        console.log(this.listAfterDelete)    
+        
+        if (this.$parent._data.listChanged = false) {
+            this.$parent._data.listOfRecipes = this.listAfterDelete
+        }
+        if(this.$parent._data.listChanged = true) {
+            this.$parent._data.newList = this.listAfterDelete
+        }
+
     }
 
     cancel(e?: any) : void {
@@ -94,5 +104,9 @@ export default class RecipeCard extends Vue {
     .textRecipeCard {
         text-overflow: ellipsis;
         height: 70px;
+    }
+
+    .textInfoCard {
+        margin-top: 6%;
     }
 </style>

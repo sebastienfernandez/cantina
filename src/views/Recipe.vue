@@ -1,7 +1,9 @@
 <template>
     <div id="recipe">
         <header>
-            <a-icon type="edit" class="iconHeaderRecipe" />
+            <router-link to="/edit">
+                <a-icon type="edit" class="iconHeaderRecipe" />
+            </router-link>
             <a-popconfirm title="Voulez vous vraiment supprimer cette recette ?" @confirm="confirm" @cancel="cancel" okText="Oui" cancelText="Non">
                 <a-icon type="delete" class="iconHeaderRecipe" />
             </a-popconfirm>
@@ -74,6 +76,7 @@
         headerStep: string = 'Ceci est l\'étape numéro '
         textStep: string = 
             'Ceci est une étape parmi toutes les autres étapes. Elles sont donc à suivre méticuleusement'
+        
     }
 
 </script>

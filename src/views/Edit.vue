@@ -2,7 +2,7 @@
   <div class="edit">
     <h1>{{ newTitle }}</h1>
     <form
-      id="app"
+      id="form"
       @submit="checkForm"
       action="https://vuejs.org/"
       method="post"
@@ -106,7 +106,6 @@
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator';
   
-
   @Component({})
 
   export default class Edit extends Vue {
@@ -171,20 +170,23 @@
 </script>
 
 <style>
-  h1 {
-    margin-top: 5%;
-  }
+  
 
   .edit {
     margin: 0 auto;
-    width: 90%;
+    width: 100%;
+    font-size: 1.5em;
+  }
+
+  h1 {
+    margin-top: 5%;
   }
 
   form {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    align-items: flex-start;
+    align-items: center;
   }
 
   .errorMessage {
@@ -195,7 +197,7 @@
   .labelInputRow {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     margin-bottom: 4%;
   }
 
@@ -212,6 +214,7 @@
     justify-content: space-between;
     align-items: center;
     width: 500px;
+    margin-bottom: 5%;
   }
 
   .difficutySelect {
@@ -289,13 +292,14 @@
 
   @media screen and (max-width: 600px) {
     .edit {
-      width: 100%;
+      font-size: 1.2em;
     }
 
     .diffAndTime {
-      flex-direction: column;
-      justify-content: space-around;
-      align-items: center;
+      flex-direction: column !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      height: 500px;
     }
 
     .inputsTime input {
