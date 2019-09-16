@@ -26,6 +26,10 @@ export default new Router({
       path: '/recipe',
       name: 'recipe',
       component: () => import('./views/Recipe.vue')
+    },
+    {
+      path: '*',
+      redirect: '/'
     }
   ]
 })
