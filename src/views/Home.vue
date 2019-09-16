@@ -202,7 +202,7 @@ export default class Home extends Vue {
                 .then(response => (this.listOfRecipes = response.data, console.log(this.listOfRecipes)))
                 .catch(error => {
                     this.info = error
-                    console.log(this.info)
+                    alert("errorMessage : " + this.info)
                 })
               
             
@@ -218,6 +218,7 @@ export default class Home extends Vue {
     display: flex;
     justify-content: space-around;
     align-items: center;
+    position: relative !important;
     margin-bottom: 10%;
     margin-top: 5%;
   }

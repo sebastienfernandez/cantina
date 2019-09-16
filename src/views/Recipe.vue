@@ -11,26 +11,33 @@
         <main>
             <section class="contentRecipeTop">
                 <aside class="imgContainer">
-                    <img src="../assets/logo-vue.png" alt="photo recette geek">
+                    <img 
+                        v-bind:src="this.infosRecipe.photo" 
+                        alt="photo recette geek"
+                        width="320px"
+                        height="380px"
+                    >
                 </aside>
                 <div class="mainContentRecipeTop">
                     <article class="informationRecipe">
-                        <h1>Titre de la recette</h1>
-                        <p>Pour {{ numberOfPersons }}</p>
-                        <p>Nécessite {{ timeOfCook }}</p>
-                        <p>Niveau {{ difficulty }}</p>
+                        <h1>{{ this.infosRecipe.titre }}</h1>
+                        <p>
+                            Pour {{this.infosRecipe.personnes}}
+                            <span v-if="this.infosRecipe.personnes === 0 || this.infosRecipe.personnes === 1">personne</span>
+                            <span v-else>personnes</span>
+                        </p>
+                        <p>Nécessite 
+                            <span v-if="this.infosRecipe.tempsPreparation > 60">{{Math.trunc(this.infosRecipe.tempsPreparation/60)}}h</span>
+                            {{this.infosRecipe.tempsPreparation%60}}
+                            <span v-if="((this.infosRecipe.tempsPreparation%60) === 0) || ((this.infosRecipe.tempsPreparation%60) === 1)">minute</span>
+                            <span v-else>minutes</span>
+                        </p>
+                        <p>Niveau {{this.infosRecipe.niveau}}</p>
                     </article>
                     <article class="description">
                         <h2>Description complète de la recette : </h2>
                         <p class="textDescription">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                            Nulla sed lacinia odio. Interdum et malesuada fames ac ante ipsum primis 
-                            in faucibus. Duis vulputate, nulla nec eleifend pulvinar, sapien sapien 
-                            facilisis lacus, at eleifend justo ipsum non justo. Mauris pharetra eleifend 
-                            libero vel hendrerit. Aenean vehicula lacus nec sodales iaculis. Donec blandit 
-                            consequat ex congue finibus. Morbi magna urna, ultricies non ornare ut, 
-                            congue eget dolor. Nunc varius dapibus tellus, quis scelerisque elit. 
-                            Nunc auctor massa quis suscipit lobortis.
+                            {{this.infosRecipe.description}}
                         </p>
                     </article>
                 </div>
@@ -39,20 +46,20 @@
                 <div class="ingrediantsContainer">
                     <h3>Liste des ingrédients magiques :</h3>
                     <ul>
-                        
+                        <li v-for="ingredient in this.infosRecipe.ingredients">
+                            {{ingredient[0] }} {{ingredient[1]}}
+                        </li>
                     </ul>
                 </div>
                 <div class="stepsContainer">
                     <h3>Liste des étapes :</h3>
                     <a-collapse defaultActiveKey="1" :bordered="false">
-                        <a-collapse-panel v-bind:header="headerStep" key="1" class="stepStyle">
-                            <p>{{textStep}}</p>
-                        </a-collapse-panel>
-                        <a-collapse-panel v-bind:header="headerStep" key="2" class="stepStyle">
-                            <p>{{textStep}}</p>
-                        </a-collapse-panel>
-                        <a-collapse-panel v-bind:header="headerStep" key="3" class="stepStyle">
-                            <p>{{textStep}}</p>
+                        <a-collapse-panel 
+                            v-for="(etape, index) in this.infosRecipe.etapes"
+                            v-bind:key="index"
+                            v-bind:header="headerStep + index"
+                            class="stepStyle">
+                            <p>{{etape}}</p>
                         </a-collapse-panel>
                     </a-collapse>
                 </div>
@@ -67,15 +74,32 @@
 <script lang="ts">
 
     import { Component, Vue } from 'vue-property-decorator';
+    import axios from 'axios'
+
+    @Component({})
 
     export default class Recipe extends Vue {
-        number: number = 2;
-        numberOfPersons: string = `${this.number} personnes`
-        timeOfCook: string = '30min.'
-        difficulty: string = 'padawan'
-        headerStep: string = 'Ceci est l\'étape numéro '
-        textStep: string = 
-            'Ceci est une étape parmi toutes les autres étapes. Elles sont donc à suivre méticuleusement'
+
+        headerStep: any = 'Ceci est l\'étape numéro '
+        infosRecipe: any = []
+        
+
+        confirm() :void {
+            console.log('confirmation supression')
+        }
+
+        cancel() : void {
+            console.log('cancel')
+        }
+
+        mounted() {
+            axios
+                .get(`http://localhost:9000/api/recipe/${this.$route.params.id}`)
+                .then(response => (this.infosRecipe = response.data, console.log(this.infosRecipe)))
+                .catch(error => {
+                    alert("errorMessage : Recette non trouvée" )
+                })
+        }
         
     }
 
@@ -113,7 +137,7 @@
     .mainContentRecipeTop {
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
         width: 68%;
     }
 
@@ -180,7 +204,7 @@
         .mainContentRecipeTop {
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
         width: 85%;
         }
 

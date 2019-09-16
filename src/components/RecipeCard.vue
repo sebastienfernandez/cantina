@@ -1,6 +1,6 @@
 <template>
 
-    <router-link to="/edit">
+    <router-link v-bind:to="recipeUrl">
     <a-card
         hoverable
         class="recipeCard"
@@ -10,7 +10,7 @@
                 v-bind:src="photoRecipe"
                 slot="cover"
             />
-            
+            <p>{{$route.params.id}}</p>
             <template class="ant-card-actions" slot="actions">
                 <router-link to="/edit">
                     <a-icon type="edit" />
@@ -77,11 +77,11 @@ export default class RecipeCard extends Vue {
          return true
         })
         
-        if (this.$parent._data.listChanged = false) {
-            this.$parent._data.listOfRecipes = this.listAfterDelete
+        if (this.$parent.$data.listChanged = false) {
+            this.$parent.$data.listOfRecipes = this.listAfterDelete
         }
-        if(this.$parent._data.listChanged = true) {
-            this.$parent._data.newList = this.listAfterDelete
+        if(this.$parent.$data.listChanged = true) {
+            this.$parent.$data.newList = this.listAfterDelete
         }
 
     }

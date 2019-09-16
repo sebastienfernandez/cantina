@@ -65,10 +65,11 @@
   <div>
     <p class="titleAdd">
      <b>Ajouter un ingrédient</b>
-     <a-icon type="plus-circle" class="buttonAdd" />
+     <a-icon type="plus-circle" class="buttonAdd" v-on:click="addIngredient" />
     </p>
     <ul>
       <li v-for="ingrediant in ingrediantList">{{ ingrediant }}</li>
+      <Ingredient />
     </ul>
   <div>
 
@@ -77,10 +78,12 @@
   <div>
     <p class="titleAdd">
      <b>Etapes de la recette : </b>
-     <a-icon type="plus-circle" class="buttonAdd" />
+     <a-icon type="plus-circle" class="buttonAdd" v-on:click="addStep" />
     </p>
     <ul>
       <li v-for="step in stepList">{{ step }}</li>
+      <Step />
+      <Step />
     </ul>
   <div>
 
@@ -104,9 +107,17 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator';
+  import { Component, Vue, } from 'vue-property-decorator';
+  import Ingredient from '@/components/Ingredient.vue';
+  import Step from '@/components/Step.vue';
+  import axios from 'axios'
   
-  @Component({})
+  @Component({
+  components: {
+    Ingredient,
+    Step
+  }
+})
 
   export default class Edit extends Vue {
 
@@ -123,7 +134,9 @@
     persons: any = null
     srcImg: any = null
     
-    
+    addIngredient() : void {
+
+    }
 
     checkForm(e?: any) : any {
 
@@ -159,7 +172,16 @@
       }
       
 
+
       e.preventDefault();
+
+      axios
+        .post('http://localhost:9000/api/recipes')
+        .then(response => (console.log(response), alert("Nouvelle recette crée")))
+                .catch(error => {
+                    alert("Champs manquants")
+                })
+
     }
 
 
