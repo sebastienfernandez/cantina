@@ -1,4 +1,6 @@
 <template>
+
+    <router-link to="/recipe">
     <a-card
         hoverable
         class="recipeCard"
@@ -7,10 +9,13 @@
                 alt="example"
                 v-bind:src="photoRecipe"
                 slot="cover"
+                
             />
             
             <template class="ant-card-actions" slot="actions">
-                <a-icon type="edit" />
+                <router-link to="/edit">
+                    <a-icon type="edit" />
+                </router-link>
                 <a-popconfirm 
                     title="Voulez vous vraiment supprimer cette recette ?" 
                     @confirm="confirm" 
@@ -41,6 +46,7 @@
             </p>
         
 </a-card>
+</router-link>
 </template>
 
 <script lang="ts">

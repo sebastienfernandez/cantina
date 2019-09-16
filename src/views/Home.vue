@@ -87,7 +87,9 @@
       </section>
     </main>
     <footer>
-      <a-icon type="plus-circle" class="buttonAddRecipe" />
+      <router-link to="/edit">
+        <a-icon type="plus-circle" class="buttonAddRecipe" />
+      </router-link>
     </footer>
   </div>
 </template>
