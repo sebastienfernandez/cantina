@@ -52,7 +52,7 @@
 
     <p class="inputsTime">
       <label for="time">Durée (en minutes) :</label>
-      <input type="range" min="0" max="200" v-model="timeValue" step="1" id="timeValue" name="timeValue" />
+      <input type="range" min="0" max="120" v-model="timeValue" step="1" id="timeValue" name="timeValue" />
       <input type="number" v-model="timeValue"/>
     </p>
   </div>
@@ -171,6 +171,10 @@
 </script>
 
 <style>
+  h1 {
+    margin-top: 5%;
+  }
+
   .edit {
     margin: 0 auto;
     width: 90%;

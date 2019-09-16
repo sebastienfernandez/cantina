@@ -83,13 +83,12 @@
 
 
     header {
-        display: flex;
-        justify-content: flex-end;
-        position: fixed;
+        display: flex !important;
+        justify-content: flex-end !important;
+        align-items: center !important;
+        position: fixed !important;
+        top: 0;
         width: 100%;
-        -webkit-box-shadow: 0px 7px 5px 0px rgba(0,0,0,0.5);
-        -moz-box-shadow: 0px 7px 5px 0px rgba(0,0,0,0.5);
-        box-shadow: 0px 7px 5px 0px rgba(0,0,0,0.5);
     }
 
     .iconHeaderRecipe {

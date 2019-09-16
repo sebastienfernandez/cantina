@@ -29,7 +29,7 @@
             </a-card-meta>
             <p>difficulté {{difficultyRecipe}}</p>
             <p>Pour {{personsRecipe}}
-                <span v-if="personsRecipe === 0">personne</span>
+                <span v-if="personsRecipe === 0 || personsRecipe === 1">personne</span>
                 <span v-else>personnes</span>
             </p>
             <p>Nécessite  
@@ -55,10 +55,12 @@ export default class RecipeCard extends Vue {
     @Prop() private difficultyRecipe!: string;
     @Prop() private personsRecipe!: number;
     @Prop() private timeRecipe!: number;
+    @Prop() private listRecipes!: any;
 
     confirm(e?: any) : void {
         console.log(e)
         alert("La recette " + this.titleRecipe + " a été supprimée ")
+        console.log(this.listRecipes)
     }
 
     cancel(e?: any) : void {
