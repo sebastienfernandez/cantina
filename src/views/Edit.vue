@@ -179,7 +179,7 @@
       e.preventDefault();
 
       axios
-        .post('http://localhost:9000/api/recipes/')
+        .post('http://localhost:9000/api/recipes')
         .then(response => (console.log(response), alert("Nouvelle recette crée")))
                 .catch(error => {
                     console.log(error)
