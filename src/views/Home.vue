@@ -2,7 +2,10 @@
   <div class="home">
     <header class="headerHome">
       <h1>Cantina</h1>
-      <h2 class="h2">{{ title }}</h2>
+      <h2 class="h2">{{ text }}</h2>
+
+      <!-- Barre de recherche -->
+
       <div id="searchBar" class="components-input-demo-presuffix">
         <a-input-search
           id="searchInput"
@@ -15,20 +18,27 @@
         </a-input-search>
       </div>
     </header>
+
     <main>
       <section class="filtersContainer">
         <h2>Filtrer vos recettes par :</h2>
         <div class="filtersContent">
+
+          <!-- champ du filtre de la difficulté  -->
+
           <a-dropdown class="filterContent">
             <a-menu slot="overlay" @click="getDifficulty">
-              <a-menu-item key="1"><a-icon type="user" />Padawan</a-menu-item>
-              <a-menu-item key="2"><a-icon type="user" />Jedi</a-menu-item>
-              <a-menu-item key="3"><a-icon type="user" />Maître</a-menu-item>
+              <a-menu-item key="1"><a-icon type="smile" />Padawan</a-menu-item>
+              <a-menu-item key="2"><a-icon type="meh" />Jedi</a-menu-item>
+              <a-menu-item key="3"><a-icon type="frown" />Maître</a-menu-item>
             </a-menu>
             <a-button class="filterButtons">
             Difficulté <a-icon type="down" />
             </a-button>
           </a-dropdown>
+
+          <!-- champ du filtre du nombre de personnes  -->
+
           <a-dropdown class="filterContent">
             <a-menu slot="overlay" @click="getPersons">
               <a-menu-item key="1"><a-icon type="user" />1</a-menu-item>
@@ -44,23 +54,31 @@
             Nombre de personnes <a-icon type="down" />
             </a-button>
           </a-dropdown>
+
+          <!-- champ du filtre du temps maximum  -->
+
           <a-dropdown class="filterContent">
             <a-menu slot="overlay" @click="getTime">
-              <a-menu-item key="1"><a-icon type="user" />20</a-menu-item>
-              <a-menu-item key="2"><a-icon type="user" />40</a-menu-item>
-              <a-menu-item key="3"><a-icon type="user" />60</a-menu-item>
-              <a-menu-item key="4"><a-icon type="user" />90</a-menu-item>
-              <a-menu-item key="5"><a-icon type="user" />120</a-menu-item>
+              <a-menu-item key="1"><a-icon type="clock-circle" />20</a-menu-item>
+              <a-menu-item key="2"><a-icon type="clock-circle" />40</a-menu-item>
+              <a-menu-item key="3"><a-icon type="clock-circle" />60</a-menu-item>
+              <a-menu-item key="4"><a-icon type="clock-circle" />90</a-menu-item>
+              <a-menu-item key="5"><a-icon type="clock-circle" />120</a-menu-item>
             </a-menu>
             <a-button class="filterButtons">
             Durée maximum en minutes <a-icon type="down" />
             </a-button>
           </a-dropdown>
+
+          <!-- bouton qui lance le filtrage  -->
           <button @click="toChangeList" id="filterButton" class="toSort">Filtrer</button>
+          <!-- bouton qui remet toutes les recettes avant(s) filtrage(s)  -->
           <button @click="toResetList" id="resetButton" class="toSort">Reset</button>
         </div>
       </section>
       <section id="listOfRecipes">
+
+        <!-- Ensemble des 'cartes' de recette, filtées ou non  -->
 
         <RecipeCard v-if="listChanged === false"
           v-for="recipe in listOfRecipes" 
@@ -89,6 +107,7 @@
       </section>
     </main>
     <footer>
+      <!--  Bouton d'ajout de recette -->
       <router-link to="/edit">
         <a-icon type="plus-circle" class="buttonAddRecipe" />
       </router-link>
@@ -97,6 +116,9 @@
 </template>
 
 <script lang="ts">
+
+/* import des composants et modules */ 
+
 import { Component, Vue } from 'vue-property-decorator';
 import RecipeCard from '@/components/RecipeCard.vue';
 import axios from 'axios'
@@ -108,9 +130,9 @@ import axios from 'axios'
 })
 export default class Home extends Vue {
 
-  // typage (avec typescript) de la variable title
+  // typage des variables 
 
-  title: string = 'Avec la Cantina, innovez sur les recettes issues de la culture populaire !'
+  text: string = 'Avec la Cantina, innovez sur les recettes issues de la culture populaire !'
   lessquarter: string = '<15min.'
   info: any = null
   listOfRecipes: any = []
@@ -121,12 +143,14 @@ export default class Home extends Vue {
   filterByPersons?: number;
   filterByTime?: number;
 
-  
+  /* typage des fonctions et de leurs paramètres */ 
+
+  /* AFFECTE LES CONDITIONS DU FILTRAGE */ 
+
 
   getName (searchValue?: string): void {
     console.log(searchValue)
     this.filterByName = searchValue
-    console.log(this.filterByName)
   }
 
   getDifficulty(filterValue?: any): void {
@@ -168,6 +192,9 @@ export default class Home extends Vue {
         break;
     }
   }
+
+  /* CHANGE LE TABLEAU D'OBJETS PRIS EN COMPTE POUR L'AFFICHAGE DES RECETTES,
+    SOIT LES TABLEAUX TRIES OU LES TABLEAUX AVANT TRIAGE */
   
   toChangeList(): void {
     this.newList = this.listOfRecipes.filter((recipe: any) => {
@@ -193,9 +220,13 @@ export default class Home extends Vue {
     
   }
 
+  /** REAFFICHE LES LISTES AVANT TRI */
+
   toResetList() : void {
     this.listChanged = false;
   }
+
+  /** FAIT APPEL A TOUTES LES RECETTES DU SERVEUR AU MOMENT DU MONTAGE DE HOME */
 
   mounted() {
             axios
@@ -300,6 +331,8 @@ export default class Home extends Vue {
     cursor: pointer;
   }
 
+  /** MEDIA QUERIES */
+
   @media screen and (max-width: 1280px) {
     .headerHome {
       flex-direction: column;
@@ -309,6 +342,8 @@ export default class Home extends Vue {
     width: 400px
   }
   }
+
+  /** MEDIA QUERIES */
 
   @media screen and (max-width: 760px) {
     h1 {

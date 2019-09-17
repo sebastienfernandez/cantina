@@ -1,6 +1,9 @@
 <template>
     <div id="recipe">
         <header>
+
+            <!-- Icônes de modification et de supression de la recette -->
+
             <router-link to="/edit">
                 <a-icon type="edit" class="iconHeaderRecipe" />
             </router-link>
@@ -11,6 +14,7 @@
         <main>
             <section class="contentRecipeTop">
                 <aside class="imgContainer">
+                    <!-- photo de la recette -->
                     <img 
                         v-bind:src="this.infosRecipe.photo" 
                         alt="photo recette geek"
@@ -21,12 +25,13 @@
                 <div class="mainContentRecipeTop">
                     <article class="informationRecipe">
                         <h1>{{ this.infosRecipe.titre }}</h1>
-                        <p>
+                        <p> <!-- met personne au singulier ou pluriel -->
                             Pour {{this.infosRecipe.personnes}}
                             <span v-if="this.infosRecipe.personnes === 0 || this.infosRecipe.personnes === 1">personne</span>
                             <span v-else>personnes</span>
                         </p>
                         <p>Nécessite 
+                            <!-- affiche le temps en minutes avec les heures -->
                             <span v-if="this.infosRecipe.tempsPreparation > 60">{{Math.trunc(this.infosRecipe.tempsPreparation/60)}}h</span>
                             {{this.infosRecipe.tempsPreparation%60}}
                             <span v-if="((this.infosRecipe.tempsPreparation%60) === 0) || ((this.infosRecipe.tempsPreparation%60) === 1)">minute</span>
@@ -45,6 +50,9 @@
             <section class="contentRecipeBottom">
                 <div class="ingrediantsContainer">
                     <h3>Liste des ingrédients magiques :</h3>
+
+                    <!-- suite des ingrdients de la recette -->
+
                     <ul>
                         <li v-for="ingredient in this.infosRecipe.ingredients">
                             {{ingredient[0] }} {{ingredient[1]}}
@@ -53,6 +61,7 @@
                 </div>
                 <div class="stepsContainer">
                     <h3>Liste des étapes :</h3>
+                    <!-- liste des etapes de la recette  -->
                     <a-collapse defaultActiveKey="1" :bordered="false">
                         <a-collapse-panel 
                             v-for="(etape, index) in this.infosRecipe.etapes"
@@ -83,6 +92,7 @@
         headerStep: any = 'Ceci est l\'étape numéro '
         infosRecipe: any = []
         
+        /** requete de supression de la recette */
 
         confirm() :void {
             console.log('confirmation supression')
@@ -90,12 +100,14 @@
                 .delete(`http://localhost:9000/api/recipe/${this.$route.params.id}`)
                 .then(response => (alert('recette supprimée')))
                 .catch(error => (alert("aucune recette trouvée")))
-            history.back()
+                history.back()
         }
 
         cancel() : void {
             console.log('cancel')
         }
+
+        /** appel de la recette au serveur afin d'afficher ses informations */
 
         mounted() {
             axios
@@ -182,6 +194,8 @@
         overflow: hidden;
     }
 
+    /****************** MEDIA QUERIES *****************/
+
     @media screen and (max-width: 1000px) {
         .contentRecipeTop {
             flex-direction: column;
@@ -201,6 +215,8 @@
             align-items: center;
         }
     }
+
+    /************** MEDIA QUERIES ******************/
 
     @media screen and (max-width: 600px) {
         header {

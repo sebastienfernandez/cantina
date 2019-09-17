@@ -1,5 +1,6 @@
 <template>
 
+    <!-- Router-link qui dirigera vers la page de la recette -->
     <router-link v-bind:to="recipeUrl">
     <a-card
         hoverable
@@ -10,7 +11,9 @@
                 v-bind:src="photoRecipe"
                 slot="cover"
             />
-            <p>{{$route.params.id}}</p>
+            
+            <!-- boutons composants pour supprimer ou modifier la recette  -->
+
             <template class="ant-card-actions" slot="actions">
                 <router-link v-bind:to="editUrl">
                     <a-icon type="edit" />
@@ -32,6 +35,8 @@
                 class="textRecipeCard"
             >
             </a-card-meta>
+
+            <!-- respect de l'orthographe  -->
             <div class="textInfoCard">
                 <p>Difficulté {{difficultyRecipe}}</p>
                 <p>Pour {{personsRecipe}}
@@ -52,9 +57,12 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import axios from 'axios'
 
 @Component
 export default class RecipeCard extends Vue {
+
+    /** props de RecipeCard dont les valeurs sont précisées par le parent, ici Home */
 
     @Prop() private idRecipe!: number;
     @Prop() private titleRecipe!: string;
@@ -70,13 +78,15 @@ export default class RecipeCard extends Vue {
     recipeUrl: string = "/recipe/" + this.idRecipe
     editUrl: string = "/edit/" + this.idRecipe
 
+    /** filtre le tableau de recettes de la recette supprimée */
+
     confirm(e?: any) : void {
         console.log(e)
-        alert("La recette " + this.titleRecipe + " a été supprimée ")
         this.listAfterDelete = this.listRecipes.filter((recipe: any) => {
          if(recipe.id == this.idRecipe) {return false}
          return true
         })
+        
         
         if (this.$parent.$data.listChanged = false) {
             this.$parent.$data.listOfRecipes = this.listAfterDelete
@@ -84,6 +94,14 @@ export default class RecipeCard extends Vue {
         if(this.$parent.$data.listChanged = true) {
             this.$parent.$data.newList = this.listAfterDelete
         }
+
+        /** requête afin de supprimer la recette du serveur */
+
+        axios
+                .delete(`http://localhost:9000/api/recipe/${this.idRecipe}`)
+                .then(response => (console.log('recette supprimée')))
+                .catch(error => (alert("aucune recette trouvée")))
+        
 
     }
 

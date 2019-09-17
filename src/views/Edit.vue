@@ -1,12 +1,10 @@
 <template>
   <div class="edit">
     <h1>{{ newTitle }}</h1>
+
     <form
       id="form"
       @submit="checkForm"
-      action="https://vuejs.org/"
-      method="post"
-      novalidate="true"
     >
 
   <p class="labelInputRow">
@@ -29,8 +27,9 @@
       cols="50" 
       rows="5"
       maxlength="150"
+      aria-placeholder="Court texte descriptif..."
     >
-    
+
     </textarea>
   </p>
 
@@ -38,9 +37,21 @@
   <div class="diffAndTime">
     <span class="difficutySelect">
         <p class="blueTitle">Difficulté :</p><br />
-        <p><input type="radio" name="difficulty" value="padawan" id="padawan" checked /> <label for="padawan">Padawan</label></p><br />
-        <p><input type="radio" name="difficulty" value="jedi" id="jedi" /> <label for="jedi">Jedi</label></p><br />
-        <p><input type="radio" name="difficulty" value="master" id="master" /> <label for="master">Maître</label></p><br />
+        <p>
+          <input type="radio" v-model="difficulty" name="difficulty" value="padawan" id="padawan" checked />
+          <label for="padawan">Padawan</label>
+        </p>
+        <br />
+        <p>
+          <input type="radio" v-model="difficulty" name="difficulty" value="jedi" id="jedi" />
+          <label for="jedi">Jedi</label>
+        </p>
+        <br />
+        <p>
+          <input type="radio" v-model="difficulty" name="difficulty" value="master" id="master" />
+          <label for="master">Maître</label>
+        </p>
+        <br />
     </span>
 
     <p class="inputsTime">
@@ -58,10 +69,9 @@
   <div class="infosAdd">
     <p class="titleAdd">
      <b class="blueTitle">Ajouter un ingrédient</b>
-     <a-icon type="plus-circle" class="buttonAdd" v-on:click="addIngredient" />
+     <a-icon type="plus-circle" class="buttonAdd"/>
     </p>
-    <ul>
-      <li v-for="ingrediant in ingrediantList">{{ ingrediant }}</li>
+      <!-- liste des ingredients -->
       <div v-for="ingrediant in ingrediantList" class="ingredientInterface">
         <input name="qty" type="number" min="1" max="1000"/>
         <select name="mesure" id="mesure">
@@ -71,18 +81,22 @@
             <option value=" "> </option>
         </select>
         <input name="ingredient" type="text" maxlength="30"/>
-        <a-icon type="close-square" v-on:click="deleteIngredient" class="closeButton" />
+        <a-icon type="close-square" class="closeButton" />
     </div>
-    </ul>
+    
   </div>
   <div class="infosAdd">
     <p class="titleAdd">
      <b class="blueTitle">Etapes de la recette : </b>
-     <a-icon type="plus-circle" class="buttonAdd" v-on:click="addStep" />
+     <a-icon type="plus-circle" class="buttonAdd"/>
     </p>
-    <ul>
-      <li v-for="step in stepList">{{ step }}</li>
-    </ul>
+      <!-- liste des etapes -->
+      <div v-for="step in stepList" class="stepInterface">
+        <textarea name="step" rows="3" cols="45">
+
+        </textarea>
+        <a-icon type="close-square"/>
+    </div>
   <div>
 
     </div>
@@ -94,10 +108,13 @@
       <input type="url" placeholder="http://..." name="srcImg" id="srcImg" v-model="srcImg"/>
     </p>
     <div class="buttonsFooter">
-      <input type="submit" value="Submit" class="buttonFooter" >
+      <!-- validation du formulaire -->
+      <input type="submit" value="Valider" class="buttonFooter" >
+      <button v-on:click="testFunc">test</button>
     </div>
   </div>
 
+  <!-- affiche toutes les erreurs de saisie du formulaire -->
   <p v-if="errors.length" class="errorMessage">
     <b class="warning">Veuillez corriger les erreurs suivantes :</b>
     <ul>
@@ -111,16 +128,9 @@
 
 <script lang="ts">
   import { Component, Vue, } from 'vue-property-decorator';
-  import Ingredient from '@/components/Ingredient.vue';
-  import Step from '@/components/Step.vue';
   import axios from 'axios'
   
-  @Component({
-  components: {
-    Ingredient,
-    Step
-  }
-})
+  @Component({})
 
   export default class Edit extends Vue {
 
@@ -137,12 +147,10 @@
     persons: any = null
     srcImg: any = null
     
-    addIngredient() : void {
+    
+
+    testFunc() : void {
       
-    }
-
-    addStep() : void {
-
     }
 
     checkForm(e?: any) : any {
@@ -159,14 +167,14 @@
       if (!this.difficulty) {
         this.errors.push('Difficulté de la recette requise');
       }
-      if (!this.timeValue || this.timeValue > 0 || Number.isInteger(this.timeValue) === true) {
+      if (!this.timeValue || this.timeValue < 0 || (isFinite(this.timeValue) == true)) {
         this.errors.push('Temps de préparation requis, celui-ci doit être entier et positif');
       }
-      if (!this.persons || this.persons > 0 || Number.isInteger(this.persons) === true) {
+      if (!this.persons || this.persons < 0 || (isFinite(this.persons) == true)) {
         this.errors.push('Nombre de personne(s) requis, celui-ci doit être entier et positif');
       }
 
-      if(this.stepList.length === 0) {
+      /*if(this.stepList.length === 0) {
         this.errors.push('La recette doit suivre au moins une étape')
       }
 
@@ -176,18 +184,29 @@
 
       if (!this.errors.length && this.stepList.length > 0 && this.ingrediantList.length > 0 ) {
         return true;
-      }
+      }*/
+
       
 
-
       e.preventDefault();
-
-      axios
+      console.log('rrrr')
+      
+      /*axios
         .post('http://localhost:9000/api/recipes')
         .then(response => (console.log(response), alert("Nouvelle recette crée")))
                 .catch(error => {
                     console.log(error)
                 })
+
+      axios({
+        method: 'post',
+        url: 'http://localhost:9000/api/recipes',
+        data: this.newRecipe
+      })
+      .then(response => (console.log(response)))
+      .catch(error => {
+        console.log(error)
+      })*/
 
     }
 
@@ -229,13 +248,6 @@
   .blueTitle {
     font-weight: bold;
     color: #1890ff;
-  }
-
-  .errorMessage {
-    display: flex !important;
-    flex-direction: column !important;
-    margin: 0 auto !important;
-    margin-bottom: 5% !important;
   }
 
   .labelInputRow {
@@ -342,15 +354,33 @@
   .buttonsFooter {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     height: 200px;
   }
 
   .buttonFooter {
-    cursor: pointer;
     width: 200px;
     height: 50px;
+    background-color: #54a;
+    color: white;
+    border: none;
+    font-size: 1.4em;
+    border-radius: 10px;
+    cursor: pointer;
   }
+
+  .errorMessage {
+    display: flex !important;
+    flex-direction: column !important;
+    margin: 0 auto !important;
+    margin-bottom: 5% !important;
+  }
+
+  .warning {
+    color: red;
+  }
+
+  /** MEDIA QUERIES */
 
   @media screen and (max-width: 1040px) {
     form {
@@ -361,6 +391,8 @@
       width: 80%;
     }
   }
+
+  /** MEDIA QUERIES */
 
   @media screen and (max-width: 880px) {
     .edit {
