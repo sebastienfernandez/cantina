@@ -8,28 +8,20 @@
       method="post"
       novalidate="true"
     >
-  
-  <p v-if="errors.length" class="errorMessage">
-    <b>Veuillez corriger les erreurs suivantes :</b>
-    <ul>
-      <li v-for="error in errors">{{ error }}</li>
-    </ul>
-  </p>
 
   <p class="labelInputRow">
-    <label for="name">Name</label>
+    <label for="name" class="blueTitle">Name</label>
     <input
       id="name"
       v-model="name"
       type="text"
       name="name"
       maxlength="30"
-      value="seb"
     >
   </p>
 
   <p class="labelInputRow">
-    <label for="description">Description</label>
+    <label for="description" class="blueTitle">Description</label>
     <textarea 
       name="description" 
       id="description" 
@@ -45,46 +37,51 @@
 
   <div class="diffAndTime">
     <span class="difficutySelect">
-        Difficulté :<br />
+        <p class="blueTitle">Difficulté :</p><br />
         <p><input type="radio" name="difficulty" value="padawan" id="padawan" checked /> <label for="padawan">Padawan</label></p><br />
         <p><input type="radio" name="difficulty" value="jedi" id="jedi" /> <label for="jedi">Jedi</label></p><br />
         <p><input type="radio" name="difficulty" value="master" id="master" /> <label for="master">Maître</label></p><br />
     </span>
 
     <p class="inputsTime">
-      <label for="time">Durée (en minutes) :</label>
+      <label for="time" class="blueTitle">Durée (en minutes) :</label>
       <input type="range" min="0" max="120" v-model="timeValue" step="1" id="timeValue" name="timeValue" />
       <input type="number" v-model="timeValue"/>
     </p>
   </div>
 
    <p class="inputsPersons">
-     <label for="persons">Pour combien de personnes ?</label>
+     <label for="persons" class="blueTitle">Pour combien de personnes ?</label>
      <input type="number" id="persons" name="persons" v-model="persons" min="1" max="8" step="1" />
    </p>
 
-  <div>
+  <div class="infosAdd">
     <p class="titleAdd">
-     <b>Ajouter un ingrédient</b>
+     <b class="blueTitle">Ajouter un ingrédient</b>
      <a-icon type="plus-circle" class="buttonAdd" v-on:click="addIngredient" />
     </p>
     <ul>
       <li v-for="ingrediant in ingrediantList">{{ ingrediant }}</li>
-      <Ingredient />
-    </ul>
-  <div>
-
+      <div v-for="ingrediant in ingrediantList" class="ingredientInterface">
+        <input name="qty" type="number" min="1" max="1000"/>
+        <select name="mesure" id="mesure">
+            <option value="cl">cl</option>
+            <option value="mg">mg</option>
+            <option value="g">g</option>
+            <option value=" "> </option>
+        </select>
+        <input name="ingredient" type="text" maxlength="30"/>
+        <a-icon type="close-square" v-on:click="deleteIngredient" class="closeButton" />
     </div>
+    </ul>
   </div>
-  <div>
+  <div class="infosAdd">
     <p class="titleAdd">
-     <b>Etapes de la recette : </b>
+     <b class="blueTitle">Etapes de la recette : </b>
      <a-icon type="plus-circle" class="buttonAdd" v-on:click="addStep" />
     </p>
     <ul>
       <li v-for="step in stepList">{{ step }}</li>
-      <Step />
-      <Step />
     </ul>
   <div>
 
@@ -93,13 +90,20 @@
 
   <div class="editFooter">
     <p class="imgRecipe">
-      <label for="srcImg">Source de votre photo de recette</label>
+      <label for="srcImg" class="blueTitle">Source de votre photo de recette</label>
       <input type="url" placeholder="http://..." name="srcImg" id="srcImg" v-model="srcImg"/>
     </p>
     <div class="buttonsFooter">
       <input type="submit" value="Submit" class="buttonFooter" >
     </div>
   </div>
+
+  <p v-if="errors.length" class="errorMessage">
+    <b class="warning">Veuillez corriger les erreurs suivantes :</b>
+    <ul>
+      <li v-for="error in errors">{{ error }}</li>
+    </ul>
+  </p>
 
 </form>
   </div>
@@ -205,6 +209,8 @@
 
   h1 {
     margin-top: 5%;
+    color: #54a;
+    text-shadow: 0 0 0.5em #87F, 0 0 0.5em #87F, 0 0 0.5em #87F;
   }
 
   form {
@@ -212,6 +218,17 @@
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+    margin: 0 auto;
+    padding: 2%;
+    width: 60%;
+    background-color: #F7F7FA;
+    border: 2px black solid;
+    border-radius: 50px;
+  }
+
+  .blueTitle {
+    font-weight: bold;
+    color: #1890ff;
   }
 
   .errorMessage {
@@ -224,24 +241,25 @@
   .labelInputRow {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    margin-bottom: 4%;
-  }
-
-  .labelInputRow label {
-    margin-right: 30px;
-  }
-
-  .labelInputRow input {
-    margin-right: 30px;
+    padding-bottom: 4%;
+    width: 100%;
+    border: gainsboro 2px solid;
+    border-style: inset;
+    border-radius: 25px;
   }
 
   .diffAndTime {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
-    width: 500px;
+    width: 100%;
+    border: gainsboro 2px solid;
+    border-style: inset;
+    border-radius: 25px;
     margin-bottom: 5%;
+    padding-top: 2%;
   }
 
   .difficutySelect {
@@ -249,8 +267,6 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
-    height: 200px;
-    width: 200px;
   }
 
   .difficutySelect input {
@@ -271,11 +287,26 @@
 
   .inputsPersons {
     display: flex;
+    justify-content: center;
     align-items: center;
+    width: 100%;
+    border: gainsboro 2px solid;
+    border-style: inset;
+    border-radius: 25px;
+    padding: 4%;
   }
   
   .inputsPersons input {
     margin-left: 30px;
+  }
+
+  .infosAdd {
+    margin-bottom: 3%;
+    padding: 4%;
+    width: 100%;
+    border: gainsboro 2px solid;
+    border-style: inset;
+    border-radius: 25px;
   }
 
   .titleAdd {
@@ -293,7 +324,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 500px;
+    padding: 4%;
+    width: 100%;
+    border: gainsboro 2px solid;
+    border-style: inset;
+    border-radius: 25px;
   }
 
   .imgRecipe {
@@ -317,9 +352,23 @@
     height: 50px;
   }
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 1040px) {
+    form {
+      width: 75%;
+    }
+
+    #description {
+      width: 80%;
+    }
+  }
+
+  @media screen and (max-width: 880px) {
     .edit {
       font-size: 1.2em;
+    }
+
+    form {
+      width: 85%;
     }
 
     .diffAndTime {

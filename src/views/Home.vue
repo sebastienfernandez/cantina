@@ -1,7 +1,8 @@
 <template>
   <div class="home">
     <header class="headerHome">
-      <h1>{{ title }}</h1>
+      <h1>Cantina</h1>
+      <h2 class="h2">{{ title }}</h2>
       <div id="searchBar" class="components-input-demo-presuffix">
         <a-input-search
           id="searchInput"
@@ -221,6 +222,17 @@ export default class Home extends Vue {
     position: relative !important;
     margin-bottom: 10%;
     margin-top: 5%;
+  }
+
+  h1 {
+    font-size: 3em;
+    font-style: italic;
+    color: #54a;
+    text-shadow: 0 0 0.5em #87F, 0 0 0.5em #87F, 0 0 0.5em #87F;
+  }
+
+  .h2 {
+    font-size: 1.8em;
   }
 
   #searchBar {
