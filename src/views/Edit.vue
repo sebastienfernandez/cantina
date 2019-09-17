@@ -8,7 +8,7 @@
       method="post"
       novalidate="true"
     >
-
+  
   <p v-if="errors.length" class="errorMessage">
     <b>Veuillez corriger les erreurs suivantes :</b>
     <ul>
@@ -95,7 +95,6 @@
     <p class="imgRecipe">
       <label for="srcImg">Source de votre photo de recette</label>
       <input type="url" placeholder="http://..." name="srcImg" id="srcImg" v-model="srcImg"/>
-      <img v-bind:src="srcImg" alt="photo recette geek">
     </p>
     <div class="buttonsFooter">
       <input type="submit" value="Submit" class="buttonFooter" >
@@ -135,7 +134,7 @@
     srcImg: any = null
     
     addIngredient() : void {
-
+      
     }
 
     addStep() : void {
@@ -180,7 +179,7 @@
       e.preventDefault();
 
       axios
-        .post('http://localhost:9000/api/recipes')
+        .post('http://localhost:9000/api/recipes/')
         .then(response => (console.log(response), alert("Nouvelle recette crée")))
                 .catch(error => {
                     console.log(error)
@@ -216,8 +215,10 @@
   }
 
   .errorMessage {
-    margin: 0 auto;
-    margin-bottom: 5%;
+    display: flex !important;
+    flex-direction: column !important;
+    margin: 0 auto !important;
+    margin-bottom: 5% !important;
   }
 
   .labelInputRow {
