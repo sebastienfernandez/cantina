@@ -7,16 +7,15 @@
 
     <form
       id="form"
-      @submit="checkForm"
+      @submit.prevent="checkForm"
     >
 
   <p class="labelInputRow">
     <label for="name" class="blueTitle">Name</label>
     <input
       id="name"
-      v-model="name"
+      v-model="newRecipe.titre"
       type="text"
-      name="name"
       maxlength="30"
     >
   </p>
@@ -26,11 +25,11 @@
     <textarea 
       name="description" 
       id="description" 
-      v-model="description"
+      v-model="newRecipe.description"
       cols="50" 
       rows="5"
       maxlength="150"
-      aria-placeholder="Court texte descriptif..."
+      placeholder="Court texte descriptif..."
     >
 
     </textarea>
@@ -41,17 +40,17 @@
     <span class="difficutySelect">
         <p class="blueTitle">Difficulté :</p><br />
         <p>
-          <input type="radio" v-model="difficulty" name="difficulty" value="padawan" id="padawan" checked />
+          <input type="radio" v-model="newRecipe.niveau" value="padawan" id="padawan" checked />
           <label for="padawan">Padawan</label>
         </p>
         <br />
         <p>
-          <input type="radio" v-model="difficulty" name="difficulty" value="jedi" id="jedi" />
+          <input type="radio" v-model="newRecipe.niveau" value="jedi" id="jedi" />
           <label for="jedi">Jedi</label>
         </p>
         <br />
         <p>
-          <input type="radio" v-model="difficulty" name="difficulty" value="master" id="master" />
+          <input type="radio" v-model="newRecipe.niveau" value="maitre" id="master" />
           <label for="master">Maître</label>
         </p>
         <br />
@@ -59,14 +58,14 @@
 
     <p class="inputsTime">
       <label for="time" class="blueTitle">Durée (en minutes) :</label>
-      <input type="range" min="0" max="120" v-model="timeValue" step="1" id="timeValue" name="timeValue" />
-      <input type="number" v-model="timeValue"/>
+      <input type="range" min="0" max="120" v-model.number="newRecipe.tempsPreparation" step="1" />
+      <input type="number" v-model.number="newRecipe.tempsPreparation"/>
     </p>
   </div>
 
    <p class="inputsPersons">
      <label for="persons" class="blueTitle">Pour combien de personnes ?</label>
-     <input type="number" id="persons" name="persons" v-model="persons" min="1" max="8" step="1" />
+     <input type="number" id="persons" v-model.number="newRecipe.personnes" min="1" max="8" step="1" />
    </p>
 
   <div class="infosAdd">
@@ -75,16 +74,10 @@
      <a-icon type="plus-circle" class="buttonAdd" v-on:click="addIngredient"/>
     </p>
       <!-- liste des ingredients -->
-      <div v-for="ingredient in ingredientList" class="ingredientInterface">
-        <input name="qty" type="number" min="1" max="1000" v-model="number"/>
-        <select name="mesure" id="mesure" v-model="mesure">
-            <option value="cl">cl</option>
-            <option value="mg">mg</option>
-            <option value="g">g</option>
-            <option value=" "> </option>
-        </select>
-        <input name="nameIngredient" type="text" maxlength="30" v-model="nameIngredient"/>
-        <a-icon type="close-square" class="closeButton" v-on:click="deleteIngredient" />
+      <div v-for="(ingredient, index) in newRecipe.ingredients" class="ingredientInterface" :key="index">
+        <input name="qty" type="text" min="1" max="1000" v-model="ingredient[0]"/>
+        <input name="nameIngredient" type="text" maxlength="30" v-model="ingredient[1]"/>
+        <a-icon type="close-square" class="closeButton" @click.prevent="deleteIngredient(index)" />
     </div>
     
   </div>
@@ -94,11 +87,11 @@
      <a-icon type="plus-circle" class="buttonAdd" v-on:click="addStep"/>
     </p>
       <!-- liste des etapes -->
-      <div v-for="step in stepList" class="stepInterface">
-        <textarea name="step" rows="3" cols="45">
+      <div v-for="(step, index) in newRecipe.etapes" class="stepInterface" :key="index">
+        <textarea name="step" rows="3" cols="45" v-model="newRecipe.etapes[index]">
 
         </textarea>
-        <a-icon type="close-square" class="closeButton" v-on:click="deleteStep"/>
+        <a-icon type="close-square" class="closeButton"  @click.prevent="deleteStep(index)"/>
     </div>
   <div>
 
@@ -108,7 +101,7 @@
   <div class="editFooter">
     <p class="imgRecipe">
       <label for="srcImg" class="blueTitle">Source de votre photo de recette</label>
-      <input type="url" placeholder="http://..." name="srcImg" id="srcImg" v-model="srcImg"/>
+      <input type="url" placeholder="http://..." name="srcImg" id="srcImg" v-model="newRecipe.photo"/>
     </p>
     <div class="buttonsFooter">
       <!-- validation du formulaire -->
@@ -132,6 +125,18 @@
 <script lang="ts">
   import { Component, Vue, } from 'vue-property-decorator';
   import axios from 'axios'
+
+  interface objectRecipe {
+      id: any,
+      titre: string,
+      description: string,
+      niveau: string,
+      personnes: number,
+      tempsPreparation: number,
+      ingredients: string[][],
+      etapes: string[],
+      photo?: string
+  }
   
   @Component({})
 
@@ -143,95 +148,101 @@
     editTitle: string = 'Modification de la recette'
 
     errors: string[] = []
-    ingredientList: any[] = []
-    stepList: any[] = []
-    name: any = null
-    description: any = null
-    difficulty: any = null
-    timeValue: any = null
-    persons: any = null
-    srcImg: any = null
-    newRecipe: any = []
+    
+    newRecipe: objectRecipe = {
+      id: null,
+      ingredients: [[]],
+      etapes: [],
+      titre: "",
+      description:  "",
+      niveau: "",
+      tempsPreparation: 0,
+      personnes: 0,
+      photo: ""
+    }
+
+    
     
     
     
 
     testFunc() : void {
-      this.newRecipe.push(this.name, this.description, this.difficulty, Number(this.timeValue), Number(this.persons))
+      /*this.newRecipe.titre = this.titre
+      this.newRecipe.description = this.description
+      this.newRecipe.niveau = this.difficulty
+      this.newRecipe.personnes = Number(this.persons)
+      this.newRecipe.tempsPreparation = Number(this.timeValue)
+      this.newRecipe.ingredients = this.ingredientList
+      this.newRecipe.etapes = this.stepList
+      this.newRecipe.photo = this.srcImg*/
       console.log(this.newRecipe)
     }
 
-    addIngredient() : void {
-      this.ingredientList.push(["" ,"", ""])
+    /** Ajoute un tableau (ingredient) au tableau (liste des ingredients) */
+
+    addIngredient(index: number) : void {
+      this.newRecipe.ingredients.push(["", ""])
 
     }
 
-    deleteIngredient() : void {
+    /** supprime l'element du tableau ingredientList avec l'index voulu */
 
+    deleteIngredient(index: number) : void {
+      this.newRecipe.ingredients.splice(index, 1)
     }
+
+    /** Ajoute un tableau (etape) au tableau (liste des etapes) */
 
     addStep() : void {
-      this.stepList.push(["", ""])
+      this.newRecipe.etapes.push("")
     }
 
-    deleteStep() : void {
+    /** supprime l'element du tableau stepList avec l'index voulu */
 
+    deleteStep(index: number) : void {
+      this.newRecipe.etapes.splice(index, 1)
     }
 
-    checkForm(e?: any) : any {
+    checkForm() : any {
 
       this.errors = [];
 
-      if (!this.name) {
+      if (!this.newRecipe.titre) {
         this.errors.push('Nom de la recette requis');
       }
 
-      if (!this.description) {
+      if (!this.newRecipe.description) {
         this.errors.push('Description de la requette requise');
       }
-      if (!this.difficulty) {
+      if (!this.newRecipe.niveau) {
         this.errors.push('Difficulté de la recette requise');
       }
-      if (!this.timeValue || this.timeValue < 0 || (isFinite(this.timeValue) == true)) {
+      if (!this.newRecipe.tempsPreparation || this.newRecipe.tempsPreparation < 0 || (!isFinite(this.newRecipe.tempsPreparation) )) {
         this.errors.push('Temps de préparation requis, celui-ci doit être entier et positif');
       }
-      if (!this.persons || this.persons < 0 || (isFinite(this.persons) == true)) {
+      if (!this.newRecipe.personnes || this.newRecipe.personnes < 0 || (!isFinite(this.newRecipe.personnes))) {
         this.errors.push('Nombre de personne(s) requis, celui-ci doit être entier et positif');
       }
 
-      /*if(this.stepList.length === 0) {
+      if(this.newRecipe.etapes.length === 0) {
         this.errors.push('La recette doit suivre au moins une étape')
       }
 
-      if(this.ingrediantList.length === 0) {
+      if(this.newRecipe.ingredients.length === 0) {
         this.errors.push('La recette doit contenir au moins une recette')
       }
 
-      if (!this.errors.length && this.stepList.length > 0 && this.ingrediantList.length > 0 ) {
-        return true;
-      }*/
-
-      
-
-      e.preventDefault();
-      console.log('rrrr')
-      
-      /*axios
-        .post('http://localhost:9000/api/recipes')
-        .then(response => (console.log(response), alert("Nouvelle recette crée")))
-                .catch(error => {
-                    console.log(error)
-                })
-
-      axios({
-        method: 'post',
-        url: 'http://localhost:9000/api/recipes',
-        data: this.newRecipe
+      if (!this.errors.length && this.newRecipe.etapes.length > 0 && this.newRecipe.ingredients.length > 0 ) {
+        axios
+        .post('http://localhost:9000/api/recipes/', this.newRecipe)
+        .then(response => (console.log(response)))
+        .catch(error => {
+          console.log(error)
       })
-      .then(response => (console.log(response)))
-      .catch(error => {
-        console.log(error)
-      })*/
+      }
+
+      
+
 
     }
 
