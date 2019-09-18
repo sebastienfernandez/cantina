@@ -121,6 +121,6 @@ export default class RecipeCard extends Vue {
     }
 
     .textInfoCard {
-        margin-top: 6%;
+        margin-top: 15%;
     }
 </style>

@@ -304,7 +304,7 @@ export default class Home extends Vue {
   }
 
   #resetButton {
-    background-color: red;
+    background-color: #19E762;
   }
 
   #listOfRecipes {
