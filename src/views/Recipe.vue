@@ -49,18 +49,18 @@
             </section>
             <section class="contentRecipeBottom">
                 <div class="ingrediantsContainer">
-                    <h3>Liste des ingrédients magiques :</h3>
+                    <h3 class="blueTitle">Liste des ingrédients magiques :</h3>
 
                     <!-- suite des ingrdients de la recette -->
 
                     <ul>
-                        <li v-for="ingredient in this.infosRecipe.ingredients">
+                        <li v-for="ingredient in this.infosRecipe.ingredients" class="ingredientLine">
                             {{ingredient[0] }} {{ingredient[1]}}
                         </li>
                     </ul>
                 </div>
                 <div class="stepsContainer">
-                    <h3>Liste des étapes :</h3>
+                    <h3 class="blueTitle">Liste des étapes :</h3>
                     <!-- liste des etapes de la recette  -->
                     <a-collapse defaultActiveKey="1" :bordered="false">
                         <a-collapse-panel 
@@ -68,7 +68,7 @@
                             v-bind:key="index"
                             v-bind:header="headerStep + (index+1)"
                             class="stepStyle">
-                            <p>{{etape}}</p>
+                            <p class="stepLine">{{etape}}</p>
                         </a-collapse-panel>
                     </a-collapse>
                 </div>
@@ -157,6 +157,10 @@
         width: 68%;
     }
 
+    .blueTitle {
+        color: #1890ff;
+    }
+
     .description {
         display: flex;
         flex-direction: column;
@@ -178,6 +182,16 @@
 
     .ingrediantsContainer {
         width: 40%;
+    }
+
+    .ingredientLine {
+        font-size: 1.5em;
+        list-style: none;
+    }
+
+    .stepLine {
+        font-size: 1.5em;
+        font-weight: bold;
     }
 
     .stepsContainer {
