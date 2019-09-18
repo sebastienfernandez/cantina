@@ -1,5 +1,8 @@
 <template>
   <div class="edit">
+    <router-link to="/" id="linkHome">
+      <a-icon type="home" id="iconHome" />
+    </router-link>
     <h1>{{ newTitle }}</h1>
 
     <form
@@ -69,33 +72,33 @@
   <div class="infosAdd">
     <p class="titleAdd">
      <b class="blueTitle">Ajouter un ingrédient</b>
-     <a-icon type="plus-circle" class="buttonAdd"/>
+     <a-icon type="plus-circle" class="buttonAdd" v-on:click="addIngredient"/>
     </p>
       <!-- liste des ingredients -->
-      <div v-for="ingrediant in ingrediantList" class="ingredientInterface">
-        <input name="qty" type="number" min="1" max="1000"/>
-        <select name="mesure" id="mesure">
+      <div v-for="ingredient in ingredientList" class="ingredientInterface">
+        <input name="qty" type="number" min="1" max="1000" v-model="number"/>
+        <select name="mesure" id="mesure" v-model="mesure">
             <option value="cl">cl</option>
             <option value="mg">mg</option>
             <option value="g">g</option>
             <option value=" "> </option>
         </select>
-        <input name="ingredient" type="text" maxlength="30"/>
-        <a-icon type="close-square" class="closeButton" />
+        <input name="nameIngredient" type="text" maxlength="30" v-model="nameIngredient"/>
+        <a-icon type="close-square" class="closeButton" v-on:click="deleteIngredient" />
     </div>
     
   </div>
   <div class="infosAdd">
     <p class="titleAdd">
      <b class="blueTitle">Etapes de la recette : </b>
-     <a-icon type="plus-circle" class="buttonAdd"/>
+     <a-icon type="plus-circle" class="buttonAdd" v-on:click="addStep"/>
     </p>
       <!-- liste des etapes -->
       <div v-for="step in stepList" class="stepInterface">
         <textarea name="step" rows="3" cols="45">
 
         </textarea>
-        <a-icon type="close-square"/>
+        <a-icon type="close-square" class="closeButton" v-on:click="deleteStep"/>
     </div>
   <div>
 
@@ -134,23 +137,45 @@
 
   export default class Edit extends Vue {
 
+
+
     newTitle: string = 'Nouvelle recette'
     editTitle: string = 'Modification de la recette'
 
     errors: string[] = []
-    ingrediantList: string[] = []
-    stepList: string[] = []
+    ingredientList: any[] = []
+    stepList: any[] = []
     name: any = null
     description: any = null
     difficulty: any = null
     timeValue: any = null
     persons: any = null
     srcImg: any = null
+    newRecipe: any = []
+    
     
     
 
     testFunc() : void {
-      
+      this.newRecipe.push(this.name, this.description, this.difficulty, Number(this.timeValue), Number(this.persons))
+      console.log(this.newRecipe)
+    }
+
+    addIngredient() : void {
+      this.ingredientList.push(["" ,"", ""])
+
+    }
+
+    deleteIngredient() : void {
+
+    }
+
+    addStep() : void {
+      this.stepList.push(["", ""])
+    }
+
+    deleteStep() : void {
+
     }
 
     checkForm(e?: any) : any {
@@ -224,6 +249,16 @@
     margin: 0 auto;
     width: 100%;
     font-size: 1.5em;
+  }
+
+  #linkHome {
+    position: absolute;
+    top: 1%;
+    right: 1%;
+  }
+
+  #iconHome {
+    font-size: 90px;
   }
 
   h1 {
@@ -383,6 +418,11 @@
   /** MEDIA QUERIES */
 
   @media screen and (max-width: 1040px) {
+
+    #iconHome {
+      font-size: 75px;
+    }
+
     form {
       width: 75%;
     }
@@ -397,6 +437,10 @@
   @media screen and (max-width: 880px) {
     .edit {
       font-size: 1.2em;
+    }
+
+    #iconHome {
+      font-size: 60px;
     }
 
     form {
