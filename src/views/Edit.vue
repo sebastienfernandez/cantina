@@ -75,8 +75,8 @@
     </p>
       <!-- liste des ingredients -->
       <div v-for="(ingredient, index) in newRecipe.ingredients" class="ingredientInterface" :key="index">
-        <input name="qty" type="text" min="1" max="1000" v-model="ingredient[0]"/>
-        <input name="nameIngredient" type="text" maxlength="30" v-model="ingredient[1]"/>
+        <input placeholder="Sa quantité" type="text" min="1" max="1000" v-model="ingredient[0]"/>
+        <input placeholder="Son nom" type="text" maxlength="30" v-model="ingredient[1]"/>
         <a-icon type="close-square" class="closeButton" @click.prevent="deleteIngredient(index)" />
     </div>
     
@@ -106,7 +106,6 @@
     <div class="buttonsFooter">
       <!-- validation du formulaire -->
       <input type="submit" value="Valider" class="buttonFooter" >
-      <button v-on:click="testFunc">test</button>
     </div>
   </div>
 
@@ -221,7 +220,7 @@
       if (!this.errors.length && this.newRecipe.etapes.length > 0 && this.newRecipe.ingredients.length > 0 ) {
         axios
         .post('http://localhost:9000/api/recipes/', this.newRecipe)
-        .then(response => (alert('Votre recette est maintenant visible sur la page d\'accueil'), window.history.back()))
+        .then(response => (alert('Votre recette est maintenant visible sur la page d\'accueil'), history.back()))
         .catch(error => {
           console.log(error)
       })
