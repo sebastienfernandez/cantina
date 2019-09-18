@@ -160,23 +160,9 @@
       personnes: 0,
       photo: ""
     }
-
     
     
     
-    
-
-    testFunc() : void {
-      /*this.newRecipe.titre = this.titre
-      this.newRecipe.description = this.description
-      this.newRecipe.niveau = this.difficulty
-      this.newRecipe.personnes = Number(this.persons)
-      this.newRecipe.tempsPreparation = Number(this.timeValue)
-      this.newRecipe.ingredients = this.ingredientList
-      this.newRecipe.etapes = this.stepList
-      this.newRecipe.photo = this.srcImg*/
-      console.log(this.newRecipe)
-    }
 
     /** Ajoute un tableau (ingredient) au tableau (liste des ingredients) */
 
@@ -235,11 +221,14 @@
       if (!this.errors.length && this.newRecipe.etapes.length > 0 && this.newRecipe.ingredients.length > 0 ) {
         axios
         .post('http://localhost:9000/api/recipes/', this.newRecipe)
-        .then(response => (console.log(response)))
+        .then(response => (alert('Votre recette est maintenant visible sur la page d\'accueil'), window.history.back()))
         .catch(error => {
           console.log(error)
       })
+      
       }
+
+      
 
       
 

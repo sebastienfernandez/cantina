@@ -149,12 +149,12 @@ export default class Home extends Vue {
 
 
   getName (searchValue?: string): void {
-    console.log(searchValue)
+    
     this.filterByName = searchValue
   }
 
   getDifficulty(filterValue?: any): void {
-    console.log('click', filterValue)
+    
     if(filterValue.key === "1") {
       this.filterByDifficulty = "padawan"
     } else if(filterValue.key === "2") {
@@ -162,18 +162,18 @@ export default class Home extends Vue {
     } else if(filterValue.key === "3") {
       this.filterByDifficulty = "maitre"
     }
-    console.log(this.filterByDifficulty)
+    
     
   }
 
   getPersons(filterValue?: any): void {
-    console.log('click', filterValue)
+    
     this.filterByPersons = Number(filterValue.key)
-    console.log(this.filterByDifficulty)
+    
   }
 
   getTime(filterValue?: any): void {
-    console.log('click', filterValue)
+    
     switch(filterValue.key) {
       case "1": 
         this.filterByTime = 20
@@ -215,8 +215,6 @@ export default class Home extends Vue {
     })
 
     this.listChanged = true;
-    console.log(this.listChanged)
-    console.log(this.newList)
     
   }
 
@@ -231,7 +229,7 @@ export default class Home extends Vue {
   mounted() {
             axios
                 .get('http://localhost:9000/api/recipes')
-                .then(response => (this.listOfRecipes = response.data, console.log(this.listOfRecipes)))
+                .then(response => (this.listOfRecipes = response.data))
                 .catch(error => {
                     this.info = error
                     alert("errorMessage : " + this.info)

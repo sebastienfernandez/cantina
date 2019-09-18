@@ -81,7 +81,6 @@ export default class RecipeCard extends Vue {
     /** filtre le tableau de recettes de la recette supprimée */
 
     confirm(e?: any) : void {
-        console.log(e)
         this.listAfterDelete = this.listRecipes.filter((recipe: any) => {
          if(recipe.id == this.idRecipe) {return false}
          return true
@@ -103,10 +102,6 @@ export default class RecipeCard extends Vue {
                 .catch(error => (alert("aucune recette trouvée")))
         
 
-    }
-
-    cancel(e?: any) : void {
-        console.log(e)
     }
 
 }

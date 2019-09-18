@@ -95,7 +95,7 @@
         /** requete de supression de la recette */
 
         confirm() :void {
-            console.log('confirmation supression')
+            
             axios
                 .delete(`http://localhost:9000/api/recipe/${this.$route.params.id}`)
                 .then(response => (alert('recette supprimée')))
@@ -103,16 +103,14 @@
                 history.back()
         }
 
-        cancel() : void {
-            console.log('cancel')
-        }
+        
 
         /** appel de la recette au serveur afin d'afficher ses informations */
 
         mounted() {
             axios
                 .get(`http://localhost:9000/api/recipe/${this.$route.params.id}`)
-                .then(response => (this.infosRecipe = response.data, console.log(this.infosRecipe)))
+                .then(response => (this.infosRecipe = response.data))
                 .catch(error => {
                     alert("errorMessage : Recette non trouvée" )
                 })
